@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>內容解鎖中...</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 90%;
+        }
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        #image-content { display: none; } /* 初始隱藏圖片 */
+        img { max-width: 100%; height: auto; border-radius: 10px; }
+        .btn {
+            background-color: #ff4500;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loading-layer" class="container">
+        <h2>正在驗證權限...</h2>
+        <div class="loader"></div>
+        <p>正在為您開啟內容，請稍候 3 秒</p>
+        <p style="font-size: 12px; color: #888;">(若未自動跳轉，請點擊下方按鈕)</p>
+        <button class="btn" onclick="redirectToAd()">立即查看圖片</button>
+    </div>
+
+    <div id="image-content" class="container">
+        <h2>解鎖成功！</h2>
+        <hr>
+        <img src="https://meee.com.tw/HJrX8LU" alt="Secret Image">
+        <p>感謝您的耐心等待</p>
+    </div>
+
+    <script>
+        // --- 設定區 ---
+        const adDeepLink = "https://s.shopee.tw/5L7n3rKkUf"; // 這裡放廣告商提供的 App Deep Link (如蝦皮)
+        const waitTime = 3000; // 延遲 3 秒顯示圖片，確保廣告有時間跳轉
+
+        function redirectToAd() {
+            // 嘗試開啟 App
+            window.location.href = adDeepLink;
+            
+            // 同時切換頁面內容為圖片
+            showImage();
+        }
+
+        function showImage() {
+            document.getElementById('loading-layer').style.display = 'none';
+            document.getElementById('image-content').style.display = 'block';
+        }
+
+        // 頁面載入完成後自動執行
+        window.onload = function() {
+            // 1. 先嘗試自動跳轉 App
+            window.location.href = adDeepLink;
+
+            // 2. 設定倒數計時，時間到就顯示圖片
+            setTimeout(function() {
+                showImage();
+            }, waitTime);
+        };
+    </script>
+</body>
+</html>
